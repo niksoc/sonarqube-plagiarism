@@ -21,6 +21,7 @@ package org.sonar.ce.task.projectanalysis.duplication;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ import org.sonar.duplications.index.CloneGroup;
 import org.sonar.duplications.index.CloneIndex;
 import org.sonar.duplications.index.ClonePart;
 import org.sonar.duplications.index.PackedMemoryCloneIndex;
+import sun.rmi.runtime.Log;
 
 import static com.google.common.collect.FluentIterable.from;
 
@@ -50,7 +52,7 @@ public class IntegrateCrossProjectDuplications {
 
   private static final String JAVA_KEY = "java";
 
-  private static final int MAX_CLONE_GROUP_PER_FILE = 100;
+  private static final int MAX_CLONE_GROUP_PER_FILE = 100000;
   private static final int MAX_CLONE_PART_PER_GROUP = 100;
 
   private final Configuration config;
@@ -72,7 +74,18 @@ public class IntegrateCrossProjectDuplications {
     populateIndex(duplicationIndex, duplicationBlocks);
 
     List<CloneGroup> duplications = SuffixTreeCloneDetectionAlgorithm.detect(duplicationIndex, originBlocks);
-    Iterable<CloneGroup> filtered = from(duplications).filter(getNumberOfUnitsNotLessThan(component.getFileAttributes().getLanguageKey()));
+    FluentIterable<CloneGroup> filtered = from(duplications);
+    int totalDuplications = filtered.size();
+    if (!"java".equalsIgnoreCase(component.getFileAttributes().getLanguageKey())) {
+      filtered = filtered.filter(getNumberOfUnitsNotLessThan(component.getFileAttributes().getLanguageKey()));
+    }
+    if (totalDuplications > 0) {
+      LOGGER.warn(component.getName()
+          + ": num total duplications: "
+          + totalDuplications
+          + ", num filtered duplications: "
+          + filtered.size());
+    }
     addDuplications(component, filtered);
   }
 
@@ -115,10 +128,10 @@ public class IntegrateCrossProjectDuplications {
   private NumberOfUnitsNotLessThan getNumberOfUnitsNotLessThan(String language) {
     NumberOfUnitsNotLessThan numberOfUnitsNotLessThan = numberOfUnitsByLanguage.get(language);
     if (numberOfUnitsNotLessThan == null) {
-      numberOfUnitsNotLessThan = new NumberOfUnitsNotLessThan(getMinimumTokens(language));
+      numberOfUnitsNotLessThan = new NumberOfUnitsNotLessThan(32);
       numberOfUnitsByLanguage.put(language, numberOfUnitsNotLessThan);
     }
-    return numberOfUnitsNotLessThan;
+    return new NumberOfUnitsNotLessThan(32);
   }
 
   private int getMinimumTokens(String languageKey) {

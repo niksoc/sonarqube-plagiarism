@@ -369,7 +369,8 @@ public class ProjectScanContainer extends ComponentContainer {
       getComponentByType(JSONReport.class).execute();
       LOG.info("ANALYSIS SUCCESSFUL");
     } else {
-      getComponentByType(CpdExecutor.class).execute();
+      // disable within project duplication checking
+      // getComponentByType(CpdExecutor.class).execute();
       getComponentByType(ReportPublisher.class).execute();
     }
 

@@ -20,6 +20,7 @@ fi
 stopAny() {
   for edition in $EDITIONS; do
       SONAR_SH="$(distributionDirOf "$edition")/sonarqube-*/bin/$OS/sonar.sh"
+      echo "$SONAR_SH"
       if ls $SONAR_SH &> /dev/null; then
         echo "$(baseFileNameOf "$edition") is unpacked"
         sh $SONAR_SH stop

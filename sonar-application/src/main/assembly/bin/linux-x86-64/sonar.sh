@@ -431,6 +431,7 @@ start() {
 stopit() {
     echo "Stopping $APP_LONG_NAME..."
     getpid
+    echo "$pid"
     if [ "X$pid" = "X" ]
     then
         echo "$APP_LONG_NAME was not running."

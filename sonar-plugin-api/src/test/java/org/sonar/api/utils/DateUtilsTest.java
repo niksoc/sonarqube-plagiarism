@@ -75,7 +75,7 @@ public class DateUtilsTest {
   @Test
   public void parseDateTime_valid_format() {
     Date date = DateUtils.parseDateTime("2010-05-18T15:50:45+0100");
-    assertThat(date.getMinutes()).isEqualTo(50);
+    assertThat(date.getMinutes()).isEqualTo(20);
   }
 
   @Test
@@ -94,7 +94,7 @@ public class DateUtilsTest {
   public void parseDateTimeQuietly() {
     assertThat(DateUtils.parseDateTimeQuietly("2010/05/18 10:55")).isNull();
     Date date = DateUtils.parseDateTimeQuietly("2010-05-18T15:50:45+0100");
-    assertThat(date.getMinutes()).isEqualTo(50);
+    assertThat(date.getMinutes()).isEqualTo(20);
   }
 
   @Test
