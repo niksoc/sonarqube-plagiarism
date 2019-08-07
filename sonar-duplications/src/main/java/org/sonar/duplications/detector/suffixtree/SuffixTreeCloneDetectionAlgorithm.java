@@ -19,6 +19,7 @@
  */
 package org.sonar.duplications.detector.suffixtree;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -97,12 +98,20 @@ public final class SuffixTreeCloneDetectionAlgorithm {
 
   private static Map<String, List<Block>> retrieveFromIndex(CloneIndex index, String originResourceId, Set<ByteArray> hashes) {
     Map<String, List<Block>> collection = new HashMap<>();
+    String originProjectId = getProjectId(originResourceId);
+    Map<String, Integer> counts = new HashMap<>();
     for (ByteArray hash : hashes) {
       Collection<Block> blocks = index.getBySequenceHash(hash);
       for (Block blockFromIndex : blocks) {
-        // Godin: skip blocks for this file if they come from index
         String resourceId = blockFromIndex.getResourceId();
         if (!originResourceId.equals(resourceId)) {
+          String projectId = getProjectId(resourceId);
+          if (originProjectId.equals(projectId)) {
+            continue;
+          }
+          int count = blockFromIndex.getEndLine() - blockFromIndex.getStartLine() + 1;
+          counts.put(projectId, counts.getOrDefault(projectId, 0) + count);
+
           List<Block> list = collection.get(resourceId);
           if (list == null) {
             list = new ArrayList<>();
@@ -114,5 +123,10 @@ public final class SuffixTreeCloneDetectionAlgorithm {
     }
     return collection;
   }
+
+  public static String getProjectId(String resourceId) {
+    return resourceId.substring(0, resourceId.indexOf(":"));
+  }
+
 
 }

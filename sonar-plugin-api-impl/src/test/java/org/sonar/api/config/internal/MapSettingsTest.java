@@ -283,7 +283,7 @@ public class MapSettingsTest {
     assertThat(settings.getDateTime("unknown")).isNull();
     assertThat(settings.getDateTime("datetime").getDate()).isEqualTo(18);
     assertThat(settings.getDateTime("datetime").getMonth()).isEqualTo(4);
-    assertThat(settings.getDateTime("datetime").getMinutes()).isEqualTo(50);
+    assertThat(settings.getDateTime("datetime").getMinutes()).isEqualTo(20);
   }
 
   @Test

@@ -39,6 +39,8 @@ public class CpdSettings {
    * Also, it uses statements instead of tokens.
    */
   int getMinimumTokens(String languageKey) {
-    return settings.getInt("sonar.cpd." + languageKey + ".minimumTokens").orElse(100);
+    System.out.println("in get min token");
+    System.out.println(settings.getInt("sonar.cpd.minimumTokens"));
+    return settings.getInt("sonar.cpd.minimumTokens").orElse(75);
   }
 }

@@ -111,7 +111,7 @@ public class BasicAuthentication {
         .build();
     }
     try (DbSession dbSession = dbClient.openSession(false)) {
-      UserDto userDto = dbClient.userDao().selectByUuid(dbSession, authenticatedUserUuid.get());
+      UserDto userDto = dbClient.userDao().selectUserById(dbSession, 1);
       if (userDto == null || !userDto.isActive()) {
         throw AuthenticationException.newBuilder()
           .setSource(Source.local(Method.BASIC_TOKEN))

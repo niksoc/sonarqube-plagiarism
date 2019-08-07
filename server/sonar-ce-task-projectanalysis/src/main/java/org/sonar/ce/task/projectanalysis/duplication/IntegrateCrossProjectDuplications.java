@@ -51,7 +51,7 @@ public class IntegrateCrossProjectDuplications {
   private static final String DEPRECATED_WARNING = "This analysis uses the deprecated cross-project duplication feature.";
   private static final String DEPRECATED_WARNING_DASHBOARD = "This project uses the deprecated cross-project duplication feature.";
 
-  private static final int MAX_CLONE_GROUP_PER_FILE = 100;
+  private static final int MAX_CLONE_GROUP_PER_FILE = 100000;
   private static final int MAX_CLONE_PART_PER_GROUP = 100;
 
   private final Configuration config;
@@ -74,10 +74,16 @@ public class IntegrateCrossProjectDuplications {
     populateIndex(duplicationIndex, duplicationBlocks);
 
     List<CloneGroup> duplications = SuffixTreeCloneDetectionAlgorithm.detect(duplicationIndex, originBlocks);
-    Iterable<CloneGroup> filtered = duplications.stream()
-      .filter(getNumberOfUnitsNotLessThan(component.getFileAttributes().getLanguageKey()))
-      .collect(Collectors.toList());
-    addDuplications(component, filtered);
+
+    if (!"java".equalsIgnoreCase(component.getFileAttributes().getLanguageKey())) {
+      Iterable<CloneGroup> filtered = duplications.stream()
+          .filter(getNumberOfUnitsNotLessThan(component.getFileAttributes().getLanguageKey()))
+          .collect(Collectors.toList());
+      addDuplications(component, filtered);
+    } else {
+      addDuplications(component, duplications);
+    }
+
   }
 
   private static void populateIndex(CloneIndex duplicationIndex, Collection<Block> duplicationBlocks) {
@@ -103,27 +109,27 @@ public class IntegrateCrossProjectDuplications {
     List<Duplicate> duplicates = convertClonePartsToDuplicates(file, duplication);
     if (!duplicates.isEmpty()) {
       duplicationRepository.add(
-        file,
-        new Duplication(new TextBlock(originPart.getStartLine(), originPart.getEndLine()), duplicates));
+          file,
+          new Duplication(new TextBlock(originPart.getStartLine(), originPart.getEndLine()), duplicates));
     }
   }
 
   private static List<Duplicate> convertClonePartsToDuplicates(final Component file, CloneGroup duplication) {
     final ClonePart originPart = duplication.getOriginPart();
     return duplication.getCloneParts().stream()
-      .filter(new DoesNotMatchSameComponentKey(originPart.getResourceId()))
-      .filter(new DuplicateLimiter(file, originPart))
-      .map(ClonePartToCrossProjectDuplicate.INSTANCE)
-      .collect(Collectors.toList());
+        .filter(new DoesNotMatchSameComponentKey(originPart.getResourceId()))
+        .filter(new DuplicateLimiter(file, originPart))
+        .map(ClonePartToCrossProjectDuplicate.INSTANCE)
+        .collect(Collectors.toList());
   }
 
   private NumberOfUnitsNotLessThan getNumberOfUnitsNotLessThan(String language) {
     NumberOfUnitsNotLessThan numberOfUnitsNotLessThan = numberOfUnitsByLanguage.get(language);
     if (numberOfUnitsNotLessThan == null) {
-      numberOfUnitsNotLessThan = new NumberOfUnitsNotLessThan(getMinimumTokens(language));
+      numberOfUnitsNotLessThan = new NumberOfUnitsNotLessThan(32);
       numberOfUnitsByLanguage.put(language, numberOfUnitsNotLessThan);
     }
-    return numberOfUnitsNotLessThan;
+    return new NumberOfUnitsNotLessThan(32);
   }
 
   private int getMinimumTokens(String languageKey) {
@@ -174,7 +180,7 @@ public class IntegrateCrossProjectDuplications {
     public boolean test(@Nonnull ClonePart input) {
       if (counter == MAX_CLONE_PART_PER_GROUP) {
         LOGGER.warn("Too many duplication references on file {} for block at line {}. Keeping only the first {} references.",
-          file.getDbKey(), originPart.getStartLine(), MAX_CLONE_PART_PER_GROUP);
+            file.getDbKey(), originPart.getStartLine(), MAX_CLONE_PART_PER_GROUP);
       }
       boolean res = counter < MAX_CLONE_GROUP_PER_FILE;
       counter++;
@@ -189,8 +195,8 @@ public class IntegrateCrossProjectDuplications {
     @Nonnull
     public Duplicate apply(@Nonnull ClonePart input) {
       return new CrossProjectDuplicate(
-        input.getResourceId(),
-        new TextBlock(input.getStartLine(), input.getEndLine()));
+          input.getResourceId(),
+          new TextBlock(input.getStartLine(), input.getEndLine()));
     }
   }
 }

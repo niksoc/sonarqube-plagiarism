@@ -86,7 +86,7 @@ import static org.sonar.api.measures.CoreMetrics.TEST_SUCCESS_DENSITY_KEY;
 public class DefaultSensorStorage implements SensorStorage {
 
   private static final Logger LOG = Loggers.get(DefaultSensorStorage.class);
-  private static final int DEFAULT_CPD_MIN_LINES = 10;
+  private static final int DEFAULT_CPD_MIN_LINES = 1;
 
   /**
    * The metrics that can be computed by analyzers but that are
@@ -382,19 +382,7 @@ public class DefaultSensorStorage implements SensorStorage {
   }
 
   private int getCpdBlockSize(@Nullable String languageKey) {
-    if (languageKey == null) {
-      return DEFAULT_CPD_MIN_LINES;
-    }
-    return settings.getInt("sonar.cpd." + languageKey + ".minimumLines")
-      .orElseGet(() -> {
-        if ("cobol".equals(languageKey)) {
-          return 30;
-        }
-        if ("abap".equals(languageKey)) {
-          return 20;
-        }
-        return DEFAULT_CPD_MIN_LINES;
-      });
+    return DEFAULT_CPD_MIN_LINES;
   }
 
   @Override

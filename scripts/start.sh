@@ -18,6 +18,12 @@ set -euo pipefail
 
 ROOT=$(pwd)
 
+# clearing database
+echo "deleting $ROOT db"
+rm "$ROOT/sonar-application/build/distributions/sonarqube-7.7-SNAPSHOT/data/sonar.h2.db" || true
+rm "$ROOT/sonar-application/build/distributions/sonarqube-7.7-SNAPSHOT/data/sonar.lock.db" || true
+
+
 source "$ROOT/scripts/editions.sh"
 if [ -r "$ROOT/private/scripts/editions.sh" ]; then
   source "$ROOT/private/scripts/editions.sh"

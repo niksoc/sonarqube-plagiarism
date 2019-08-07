@@ -156,148 +156,148 @@ public class ProjectScanContainer extends ComponentContainer {
 
   private void addScannerComponents() {
     add(
-      new ExternalProjectKeyAndOrganizationProvider(),
-      ProcessedScannerProperties.class,
-      ScanProperties.class,
-      ProjectReactorBuilder.class,
-      WorkDirectoriesInitializer.class,
-      new MutableProjectReactorProvider(),
-      ProjectBuildersExecutor.class,
-      ProjectLock.class,
-      ResourceTypes.class,
-      ProjectReactorValidator.class,
-      MetricProvider.class,
-      ProjectInfo.class,
-      new RulesProvider(),
-      new BranchConfigurationProvider(),
-      new ProjectBranchesProvider(),
-      new ProjectPullRequestsProvider(),
-      DefaultAnalysisMode.class,
-      ProjectRepositoriesSupplier.class,
-      new ProjectServerSettingsProvider(),
+        new ExternalProjectKeyAndOrganizationProvider(),
+        ProcessedScannerProperties.class,
+        ScanProperties.class,
+        ProjectReactorBuilder.class,
+        WorkDirectoriesInitializer.class,
+        new MutableProjectReactorProvider(),
+        ProjectBuildersExecutor.class,
+        ProjectLock.class,
+        ResourceTypes.class,
+        ProjectReactorValidator.class,
+        MetricProvider.class,
+        ProjectInfo.class,
+        new RulesProvider(),
+        new BranchConfigurationProvider(),
+        new ProjectBranchesProvider(),
+        new ProjectPullRequestsProvider(),
+        DefaultAnalysisMode.class,
+        ProjectRepositoriesSupplier.class,
+        new ProjectServerSettingsProvider(),
 
-      // temp
-      new AnalysisTempFolderProvider(),
+        // temp
+        new AnalysisTempFolderProvider(),
 
-      // file system
-      ModuleIndexer.class,
-      InputComponentStore.class,
-      PathResolver.class,
-      new InputProjectProvider(),
-      new InputModuleHierarchyProvider(),
-      ScannerComponentIdGenerator.class,
-      new ScmChangedFilesProvider(),
-      StatusDetection.class,
-      LanguageDetection.class,
-      MetadataGenerator.class,
-      FileMetadata.class,
-      FileIndexer.class,
-      ProjectFileIndexer.class,
-      ProjectExclusionFilters.class,
+        // file system
+        ModuleIndexer.class,
+        InputComponentStore.class,
+        PathResolver.class,
+        new InputProjectProvider(),
+        new InputModuleHierarchyProvider(),
+        ScannerComponentIdGenerator.class,
+        new ScmChangedFilesProvider(),
+        StatusDetection.class,
+        LanguageDetection.class,
+        MetadataGenerator.class,
+        FileMetadata.class,
+        FileIndexer.class,
+        ProjectFileIndexer.class,
+        ProjectExclusionFilters.class,
 
-      // rules
-      new ActiveRulesProvider(),
-      new QualityProfilesProvider(),
-      CheckFactory.class,
-      QProfileVerifier.class,
+        // rules
+        new ActiveRulesProvider(),
+        new QualityProfilesProvider(),
+        CheckFactory.class,
+        QProfileVerifier.class,
 
-      // issues
-      DefaultNoSonarFilter.class,
-      IssueFilters.class,
-      IssuePublisher.class,
+        // issues
+        DefaultNoSonarFilter.class,
+        IssueFilters.class,
+        IssuePublisher.class,
 
-      // metrics
-      DefaultMetricFinder.class,
+        // metrics
+        DefaultMetricFinder.class,
 
-      // tests
-      TestPlanBuilder.class,
-      TestableBuilder.class,
+        // tests
+        TestPlanBuilder.class,
+        TestableBuilder.class,
 
-      // lang
-      Languages.class,
-      DefaultLanguagesRepository.class,
+        // lang
+        Languages.class,
+        DefaultLanguagesRepository.class,
 
-      // issue exclusions
-      IssueInclusionPatternInitializer.class,
-      IssueExclusionPatternInitializer.class,
-      IssueExclusionsLoader.class,
-      EnforceIssuesFilter.class,
-      IgnoreIssuesFilter.class,
+        // issue exclusions
+        IssueInclusionPatternInitializer.class,
+        IssueExclusionPatternInitializer.class,
+        IssueExclusionsLoader.class,
+        EnforceIssuesFilter.class,
+        IgnoreIssuesFilter.class,
 
-      // context
-      ContextPropertiesCache.class,
-      ContextPropertiesPublisher.class,
+        // context
+        ContextPropertiesCache.class,
+        ContextPropertiesPublisher.class,
 
-      DefaultAnalysisWarnings.class,
+        DefaultAnalysisWarnings.class,
 
-      SensorStrategy.class,
+        SensorStrategy.class,
 
-      MutableProjectSettings.class,
-      ScannerProperties.class,
-      new ProjectConfigurationProvider(),
+        MutableProjectSettings.class,
+        ScannerProperties.class,
+        new ProjectConfigurationProvider(),
 
-      ProjectCoverageAndDuplicationExclusions.class,
+        ProjectCoverageAndDuplicationExclusions.class,
 
-      // Report
-      ScannerMetrics.class,
-      ReportPublisher.class,
-      AnalysisContextReportPublisher.class,
-      MetadataPublisher.class,
-      ActiveRulesPublisher.class,
-      AnalysisWarningsPublisher.class,
-      ComponentsPublisher.class,
-      TestExecutionPublisher.class,
-      SourcePublisher.class,
-      ChangedLinesPublisher.class,
+        // Report
+        ScannerMetrics.class,
+        ReportPublisher.class,
+        AnalysisContextReportPublisher.class,
+        MetadataPublisher.class,
+        ActiveRulesPublisher.class,
+        AnalysisWarningsPublisher.class,
+        ComponentsPublisher.class,
+        TestExecutionPublisher.class,
+        SourcePublisher.class,
+        ChangedLinesPublisher.class,
 
-      CeTaskReportDataHolder.class,
+        CeTaskReportDataHolder.class,
 
-      // QualityGate check
-      QualityGateCheck.class,
+        // QualityGate check
+        QualityGateCheck.class,
 
-      // Cpd
-      CpdExecutor.class,
-      CpdSettings.class,
-      SonarCpdBlockIndex.class,
+        // Cpd
+        CpdExecutor.class,
+        CpdSettings.class,
+        SonarCpdBlockIndex.class,
 
-      // PostJobs
-      PostJobsExecutor.class,
-      PostJobOptimizer.class,
-      DefaultPostJobContext.class,
-      PostJobExtensionDictionnary.class,
+        // PostJobs
+        PostJobsExecutor.class,
+        PostJobOptimizer.class,
+        DefaultPostJobContext.class,
+        PostJobExtensionDictionnary.class,
 
-      // SCM
-      ScmConfiguration.class,
-      ScmPublisher.class,
-      ScmRevisionImpl.class,
+        // SCM
+        ScmConfiguration.class,
+        ScmPublisher.class,
+        ScmRevisionImpl.class,
 
-      // Sensors
-      DefaultSensorStorage.class,
-      DefaultFileLinesContextFactory.class,
-      ProjectSensorContext.class,
-      ProjectSensorOptimizer.class,
-      ProjectSensorsExecutor.class,
-      ProjectSensorExtensionDictionnary.class,
+        // Sensors
+        DefaultSensorStorage.class,
+        DefaultFileLinesContextFactory.class,
+        ProjectSensorContext.class,
+        ProjectSensorOptimizer.class,
+        ProjectSensorsExecutor.class,
+        ProjectSensorExtensionDictionnary.class,
 
-      // Filesystem
-      DefaultProjectFileSystem.class,
+        // Filesystem
+        DefaultProjectFileSystem.class,
 
-      // CI
-      new CiConfigurationProvider(),
-      AppVeyor.class,
-      AzureDevops.class,
-      BitbucketPipelines.class,
-      Buildkite.class,
-      CircleCi.class,
-      CirrusCi.class,
-      DroneCi.class,
-      GithubActions.class,
-      GitlabCi.class,
-      Jenkins.class,
-      SemaphoreCi.class,
-      TravisCi.class,
+        // CI
+        new CiConfigurationProvider(),
+        AppVeyor.class,
+        AzureDevops.class,
+        BitbucketPipelines.class,
+        Buildkite.class,
+        CircleCi.class,
+        CirrusCi.class,
+        DroneCi.class,
+        GithubActions.class,
+        GitlabCi.class,
+        Jenkins.class,
+        SemaphoreCi.class,
+        TravisCi.class,
 
-      AnalysisObservers.class);
+        AnalysisObservers.class);
 
     addIfMissing(DefaultProjectSettingsLoader.class, ProjectSettingsLoader.class);
     addIfMissing(DefaultRulesLoader.class, RulesLoader.class);
@@ -308,9 +308,9 @@ public class ProjectScanContainer extends ComponentContainer {
 
   private void addScannerExtensions() {
     getComponentByType(CoreExtensionsInstaller.class)
-      .install(this, noExtensionFilter(), extension -> getScannerProjectExtensionsFilter().accept(extension));
+        .install(this, noExtensionFilter(), extension -> getScannerProjectExtensionsFilter().accept(extension));
     getComponentByType(ExtensionInstaller.class)
-      .install(this, getScannerProjectExtensionsFilter());
+        .install(this, getScannerProjectExtensionsFilter());
   }
 
   static ExtensionMatcher getScannerProjectExtensionsFilter() {
@@ -332,13 +332,13 @@ public class ProjectScanContainer extends ComponentContainer {
     properties.organizationKey().ifPresent(k -> LOG.info("Organization key: {}", k));
     properties.get("sonar.branch").ifPresent(deprecatedBranch -> {
       throw MessageException.of("The 'sonar.branch' parameter is no longer supported. You should stop using it. " +
-        "Branch analysis is available in Developer Edition and above. See https://redirect.sonarsource.com/editions/developer.html for more information.");
+          "Branch analysis is available in Developer Edition and above. See https://redirect.sonarsource.com/editions/developer.html for more information.");
     });
 
     BranchConfiguration branchConfig = getComponentByType(BranchConfiguration.class);
     if (branchConfig.branchType() == BranchType.PULL_REQUEST) {
       LOG.info("Pull request {} for merge into {} from {}", branchConfig.pullRequestKey(), pullRequestBaseToDisplayName(branchConfig.targetBranchName()),
-        branchConfig.branchName());
+          branchConfig.branchName());
     } else if (branchConfig.branchName() != null) {
       LOG.info("Branch name: {}", branchConfig.branchName());
     }
@@ -355,13 +355,23 @@ public class ProjectScanContainer extends ComponentContainer {
 
     getComponentByType(ScmPublisher.class).publish();
 
-    getComponentByType(CpdExecutor.class).execute();
+    // if (analysisMode.isIssues()) {
+    //   getComponentByType(IssueTransition.class).execute();
+    //   getComponentByType(JSONReport.class).execute();
+    //   LOG.info("ANALYSIS SUCCESSFUL");
+    // } else {
+    // disable within project duplication checking
+    // getComponentByType(CpdExecutor.class).execute();
+
     getComponentByType(ReportPublisher.class).execute();
 
     if (properties.shouldWaitForQualityGate()) {
       LOG.info("------------- Check Quality Gate status");
       getComponentByType(QualityGateCheck.class).await();
     }
+    // }
+
+
 
     getComponentByType(PostJobsExecutor.class).execute();
 
