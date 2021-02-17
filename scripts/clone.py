@@ -1,4 +1,3 @@
-
 import os
 import subprocess
 import sys
@@ -40,7 +39,7 @@ def clone_or_update(https_url, update=False):
             if update:
                 subprocess.run(['git', 'pull'], cwd='./' + dir_name)
         except AssertionError as e:
-            print(e, username, '*'*30)
+            print(e, username, '*'*30, "repo not cloned correctly, try removing the folder and running again")
             raise
         return
     print(username)
@@ -61,5 +60,5 @@ executor = concurrent.futures.ThreadPoolExecutor(10)
 futures = executor.map(clone_or_update, https_urls)
 
 print('-' * 80)
+print("scripts failed for the following repos, check permissions and urls and try again:")
 print([future for future in futures if future])
-
