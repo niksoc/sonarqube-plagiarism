@@ -1,3 +1,5 @@
+Python version 3.5+
+
 ### Cloning/Updating Project Repos
 1. Substitute the repo urls in clone.py
 2. Run `python clone.py`, if there are conflicting folders, this skips cloning for them
@@ -19,4 +21,5 @@
 3. Run `jupyter notebook` and open `analysis.ipynb` from the notebook UI (Consult external resources for how to use jupyter notebooks)
 
 ### Javascript/Typescript Projects
- The node_modules folder containing all the dependencies must be at the root folder to remove the need for doing npm install in every project folder. Usually this is achieved by doing npm install in a project folder and then moving the resulting node_modules folder to the root.
+1. Install node. For eg. follow installation steps in https://github.com/nvm-sh/nvm and run `nvm install stable` and `nvm use stable`
+2. The node_modules folder containing all the dependencies must be at the root folder to remove the need for doing `npm install` in every project folder. Usually this is achieved by doing npm install in a project folder and then moving the resulting node_modules folder to the root.
