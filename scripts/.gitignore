@@ -1,0 +1,5 @@
+venv
+*.log
+*.logs
+repos.txt
+repos

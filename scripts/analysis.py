@@ -1,11 +1,10 @@
-import numpy as np
-import pandas as pd
-import requests
-import json
 import os
 from collections import defaultdict, Counter
-import networkx as nx
+
 import matplotlib.pyplot as plt
+import networkx as nx
+import pandas as pd
+import requests
 
 # directories at root level which are not projects
 EXCLUDE_FOLDERS = ['venv', 'node_modules']
@@ -18,30 +17,18 @@ NUM_DUPLICATED_LINES_URL = 'http://localhost:9000/api/measures/component?compone
 COMPONENTS_URL = 'http://localhost:9000/api/components/tree?component={project}&ps=500&qualifiers=FIL'
 DUPLICATIONS_URL = 'http://localhost:9000/api/duplications/show?key={component}'
 
-# In[ ]:
-
-
-projects = [dirname for dirname in os.listdir() if dirname not in EXCLUDE_FOLDERS and not dirname.endswith('.py')]
-
-
-# In[ ]:
+projects = [os.path.join("repos", dirname) for dirname in os.listdir("repos") if
+            dirname not in EXCLUDE_FOLDERS and os.path.isdir(os.path.join("repos", dirname))]
 
 
 def get_num_duplicated_lines(project):
     r = requests.get(NUM_DUPLICATED_LINES_URL.format(project=project)).json()
-    try:
-        return int(r['component']['measures'][0]['value'])
-    except:
-        print(project)
-        return 0
+    return int(r['component']['measures'][0]['value'])
 
 
 get_num_duplicated_lines(projects[0])
 
 projects = [project for project in projects if get_num_duplicated_lines(project) > TOTAL_DUP_LINES_FILTER]
-
-
-# In[ ]:
 
 
 def get_components(project):
@@ -51,11 +38,6 @@ def get_components(project):
 
 
 components = {project: get_components(project) for project in projects}
-
-print(components)
-
-
-# In[ ]:
 
 
 def get_duplicate_refs_for_each_line(duplications):
@@ -113,12 +95,11 @@ for project in projects:
 data = [{'project1': project1, 'project2': project2, **stat} for (project1, project2), stat in data.items()]
 df = pd.DataFrame(data)
 
-# In[ ]:
+df.to_csv('analysis_results.csv')
+
+print(df)
 
 df = df.loc[df['num_lines'] > 50]
-
-# In[ ]:
-
 
 df_normalized = df.copy()
 df_num_lines = df_normalized['num_lines']
@@ -127,9 +108,6 @@ G = nx.Graph()
 G.add_weighted_edges_from(df_normalized[['project1', 'project2', 'num_lines']].itertuples(index=False))
 for connected_component in nx.connected_components(G):
     print(connected_component)
-
-# In[ ]:
-
 
 plt.figure(num=None, figsize=(12, 12), dpi=80, facecolor='w', edgecolor='k')
 pos = nx.spring_layout(G)
@@ -142,16 +120,3 @@ nx.draw_networkx_labels(G, pos, font_size=10, font_family='sans-serif')
 
 plt.axis('off')
 plt.show()
-
-# In[ ]:
-
-
-df.to_csv('dupresults.csv')
-
-# In[ ]:
-
-
-print(df)
-
-# In[ ]:
-
