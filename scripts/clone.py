@@ -20,11 +20,6 @@ def get_repo(ssh_url):
 
 
 https_urls = [line.strip() for line in sys.stdin.readlines()]
-print(https_urls)
-
-
-def batch_clone_or_update(https_urls, update=False):
-    return [clone_or_update(https_url, update) for https_url in https_urls]
 
 
 def clone_or_update(https_url, update=False):
@@ -57,7 +52,7 @@ os.makedirs("repos", exist_ok=True)
 update = len(sys.argv) > 1 and sys.argv[1] == '-u'
 
 executor = concurrent.futures.ThreadPoolExecutor(10)
-futures = executor.map(clone_or_update, https_urls)
+futures = executor.map(clone_or_update, https_urls, [update] * len(https_urls))
 
 print('-' * 80)
 print(f"scripts failed for the following repos, check permissions and urls and try again:"
