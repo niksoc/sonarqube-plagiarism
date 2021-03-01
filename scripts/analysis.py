@@ -10,7 +10,7 @@ import requests
 EXCLUDE_FOLDERS = ['venv', 'node_modules']
 
 IGNORE_LINE_IF_DUPS_MORE_THAN = 3  # if line is duplicated across many people, then it's probably necessary common code and not copying
-MINIMUM_SPREAD = 2  # `spread` means number of files which have common content between the two projects
+MINIMUM_SPREAD = -1  # `spread` means number of files which have common content between the two projects
 TOTAL_DUP_LINES_FILTER = 50  # total number of lines which have to be duplicate in the entire project
 
 NUM_DUPLICATED_LINES_URL = 'http://localhost:9000/api/measures/component?component={project}&metricKeys=duplicated_lines'
