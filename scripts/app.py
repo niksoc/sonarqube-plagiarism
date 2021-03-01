@@ -143,7 +143,7 @@ def clone():
     with open(_abs("repos.txt")) as repos:
         with open(_abs("clone.log"), "w") as log:
             subprocess.Popen(["python", _abs("clone.py"), "-u"], stdin=repos, stdout=log)
-    return redirect("/")
+    return redirect("/admin")
 
 
 @app.route("/clone/logs")

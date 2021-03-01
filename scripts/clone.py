@@ -1,5 +1,6 @@
 import concurrent.futures
 import os
+import shutil
 import subprocess
 import sys
 
@@ -31,17 +32,17 @@ def clone_or_update(https_url, update=False):
     username = get_username(ssh_url)
     dir_name = username
     dir_path = f"repos/{dir_name}"
-    if os.path.isdir(dir_path):
-        try:
-            assert username in subprocess.run(
-                ['git', 'remote', '-v'], stdout=subprocess.PIPE, cwd=dir_path).stdout.decode()
-            if update:
-                subprocess.run(['git', 'pull'], cwd=dir_path)
-        except AssertionError as e:
-            print(e, username, '*' * 30, "repo not cloned correctly, try removing the folder and running again")
-            raise
-        return
+
     print(username)
+
+    if os.path.isdir(dir_path):
+        if username not in subprocess.run(
+                ['git', 'remote', '-v'], stdout=subprocess.PIPE, cwd=dir_path).stdout.decode():
+            shutil.rmtree(dir_path)
+        elif update:
+            subprocess.run(['git', 'pull'], cwd=dir_path)
+            return
+
     try:
         os.makedirs(dir_path, exist_ok=True)
         subprocess.run(['git', 'clone', ssh_url, dir_name], cwd="./repos")
