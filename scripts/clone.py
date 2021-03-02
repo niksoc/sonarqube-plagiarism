@@ -35,12 +35,12 @@ def clone_or_update(https_url, update=False):
                 ['git', 'remote', '-v'], stdout=subprocess.PIPE, cwd=dir_path).stdout.decode():
             shutil.rmtree(dir_path)
         elif update:
-            subprocess.run(['git', 'pull'], cwd=dir_path)
+            subprocess.run(['git', 'pull'], cwd=dir_path, timeout=30)
             return
 
     try:
         os.makedirs(dir_path, exist_ok=True)
-        subprocess.run(['git', 'clone', ssh_url, dir_name], cwd="./repos")
+        subprocess.run(['git', 'clone', ssh_url, dir_name], cwd="./repos", timeout=30)
         assert username in subprocess.run(
             ['git', 'remote', '-v'], stdout=subprocess.PIPE, cwd=dir_path).stdout.decode()
     except Exception as e:

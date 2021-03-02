@@ -205,7 +205,7 @@ def clear():
         pass
     try:
         r = requests.post(
-            f"https://localhost:9000/api/projects/bulk_delete?analyzedBefore={datetime.datetime.now().isoformat()}")
+            f"http://localhost:9000/api/projects/bulk_delete?analyzedBefore={datetime.date.today()+datetime.timedelta(days=1)}", auth=("admin", "admin"))
         r.raise_for_status()
     except Exception as e:
         return f"Clearing sonarqube projects failed with exception {e!r}"
