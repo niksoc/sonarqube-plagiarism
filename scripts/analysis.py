@@ -16,13 +16,15 @@ TOTAL_DUP_LINES_FILTER = 50  # total number of lines which have to be duplicate 
 NUM_DUPLICATED_LINES_URL = 'http://localhost:9000/api/measures/component?component={project}&metricKeys=duplicated_lines'
 COMPONENTS_URL = 'http://localhost:9000/api/components/tree?component={project}&ps=500&qualifiers=FIL'
 DUPLICATIONS_URL = 'http://localhost:9000/api/duplications/show?key={component}'
+session = requests.session()
+session.auth = ("admin", "admin")
 
 projects = [os.path.join("repos", dirname) for dirname in os.listdir("repos") if
             dirname not in EXCLUDE_FOLDERS and os.path.isdir(os.path.join("repos", dirname))]
 
 
 def get_num_duplicated_lines(project):
-    r = requests.get(NUM_DUPLICATED_LINES_URL.format(project=project)).json()
+    r = session.get(NUM_DUPLICATED_LINES_URL.format(project=project)).json()
     return int(r['component']['measures'][0]['value'])
 
 
@@ -33,7 +35,7 @@ projects = [project for project in projects if get_num_duplicated_lines(project)
 
 def get_components(project):
     """you can say that in sonarqube, components are files of the project"""
-    r = requests.get(COMPONENTS_URL.format(project=project)).json()
+    r = session.get(COMPONENTS_URL.format(project=project)).json()
     return [component['key'] for component in r['components']]
 
 
@@ -56,7 +58,7 @@ def get_duplicate_refs_for_each_line(duplications):
 
 
 def get_count_in_component(component):
-    r = requests.get(DUPLICATIONS_URL.format(component=component)).json()
+    r = session.get(DUPLICATIONS_URL.format(component=component)).json()
     duplications = r['duplications']
     other_components = r['files']
 

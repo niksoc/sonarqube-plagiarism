@@ -178,7 +178,7 @@ def scan_logs():
         return f"<pre>{log.read()}</pre>"
 
 
-@app.route("/analyse", methods=["POST"])
+@app.route("/analyse", methods=["GET"])
 @login_required
 def analyse():
     with open(_abs("analyse.log"), "w") as log:

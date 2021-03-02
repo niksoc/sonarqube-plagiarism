@@ -40,9 +40,10 @@ class Scanner:
 class MavenScanner(Scanner):
     def scan_project(self, projectDir):
         pom_paths = subprocess.run(["find", ".", "-name", "pom.xml"], stdout=subprocess.PIPE,
-                                   cwd=projectDir).stdout.decode()
+                                   cwd=projectDir).stdout.decode().strip()
         if not pom_paths:
             print("NO pom.xml FOUND, ABORTING")
+            return
         pom_path = sorted(pom_paths.splitlines(), key=lambda loc: len(loc))[0]
         pom_dir = os.path.dirname(os.path.join(projectDir, pom_path))
         subprocess.run(["mvn",
