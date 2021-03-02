@@ -79,10 +79,13 @@ def get_results_for_git_username():
         if not os.path.exists(_abs("analysis_results.csv")):
             return render_template_string(FORM_TEMPLATE, form=form, action="/", error="Analysis not run yet")
         with open(_abs("analysis_results.csv")) as csvfile:
-            for row in csv.reader(csvfile, delimiter=" ", quotechar="|"):
-                if row[0] == form.git_username.data:
-                    return f"{row[0]}, {row[1]} copied lines detected"
-            return render_template_string(FORM_TEMPLATE, form=form, action="/", error="Repository not found")
+            report = [f"{row[0]} <-> {row[1]}: {row[2]} copied lines detected"
+                        for row in csv.reader(csvfile, delimiter=" ", quotechar="|")
+                            if row[0] == form.git_username.data or row[1] == form.git_username.data]
+            if report:
+                return "<p>".join(report)
+            else:
+                return render_template_string(FORM_TEMPLATE, form=form, action="/", error="Plagiarism not found")
     return render_template_string(FORM_TEMPLATE, form=form, action="/")
 
 
