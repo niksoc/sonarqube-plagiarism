@@ -142,7 +142,7 @@ def repositories():
 def clone():
     with open(_abs("repos.txt")) as repos:
         with open(_abs("clone.log"), "w") as log:
-            subprocess.Popen(["python", _abs("clone.py"), "-u"], stdin=repos, stdout=log)
+            subprocess.Popen(["python", _abs("clone.py"), "-u"], stdin=repos, stdout=log, stderr=log)
     return redirect("/admin")
 
 
@@ -161,8 +161,8 @@ def scan():
     form = ScanForm()
     if form.validate_on_submit():
         with open(_abs("scan.log"), "w") as log:
-            subprocess.Popen(["python", _abs("scan.py"), "-project_type", form.project_type.data], stdout=log)
-        return redirect("/")
+            subprocess.Popen(["python", _abs("scan.py"), "-project_type", form.project_type.data], stdout=log, stderr=log)
+        return redirect("/admin")
     return render_template_string(FORM_TEMPLATE, form=form, action="/scan")
 
 
@@ -179,7 +179,7 @@ def scan_logs():
 @login_required
 def analyse():
     with open(_abs("analyse.log"), "w") as log:
-        subprocess.run(["python", _abs("analysis.py")], stdout=log)
+        subprocess.run(["python", _abs("analysis.py")], stdout=log, stderr=log)
     return send_from_directory(directory=current_app.root_path, filename="analysis_results.csv")
 
 
