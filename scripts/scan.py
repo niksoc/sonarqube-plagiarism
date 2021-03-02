@@ -20,6 +20,8 @@ class Scanner:
 
     def scan_project(self, projectDir):
         subprocess.run([SONAR_SCANNER_PATH,
+                        "-Dsonar.login=admin",
+                        "-Dsonar.password=admin",
                         "-Dsonar.projectKey={}".format(os.path.basename(projectDir)),
                         "-Dsonar.sources={}".format(projectDir),
                         "-Dsonar.host.url=http://localhost:9000",
@@ -44,6 +46,8 @@ class MavenScanner(Scanner):
         pom_dir = os.path.dirname(os.path.join(projectDir, pom_path))
         subprocess.run(["mvn",
                         "sonar:sonar",
+                        "-Dsonar.login=admin",
+                        "-Dsonar.password=admin",
                         "-Dsonar.projectKey={}".format(os.path.basename(projectDir)),
                         "-Dsonar.host.url=http://localhost:9000",
                         "-Dsonar.cpd.cross_project=true",

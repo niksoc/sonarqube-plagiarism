@@ -160,7 +160,7 @@ def clone_logs():
 def scan():
     form = ScanForm()
     if form.validate_on_submit():
-        with open(_abs("scan.log")) as log:
+        with open(_abs("scan.log"), "w") as log:
             subprocess.Popen(["python", _abs("scan.py"), "-project_type", form.project_type.data], stdout=log)
         return redirect("/")
     return render_template_string(FORM_TEMPLATE, form=form, action="/scan")
@@ -178,7 +178,7 @@ def scan_logs():
 @app.route("/analyse", methods=["POST"])
 @login_required
 def analyse():
-    with open(_abs("analyse.log")) as log:
+    with open(_abs("analyse.log"), "w") as log:
         subprocess.run(["python", _abs("analysis.py")], stdout=log)
     return send_from_directory(directory=current_app.root_path, filename="analysis_results.csv")
 
